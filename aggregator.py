@@ -16,6 +16,7 @@ for f in os.listdir(dir):
         if 'global' in f:
             global_model = model
         else:
+            global_model = model
             local_model = model
             local_models.append(local_model)
 
@@ -38,3 +39,4 @@ average_weights = aggregate_weights(model_weights)
 global_model.set_weights(average_weights)
 
 print(global_model.summary())
+global_model.save('collected_model/global.h5')
