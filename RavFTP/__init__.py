@@ -44,6 +44,8 @@ class FTP_Server:
 
         handler = FTPHandler
         handler.authorizer = authorizer
+        handler.permit_foreign_addresses = True
+        handler.permit_privileged_ports = True
         return handler
 
     def run(self):
