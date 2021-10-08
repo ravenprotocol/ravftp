@@ -1,4 +1,5 @@
 import json
+from _md5 import md5
 from argparse import ArgumentParser
 import shutil
 
@@ -13,6 +14,7 @@ def add(username, password):
     # Check user
     if len([user['username'] for user in users if user['username'] == username]) == 0:
         # Do not add user
+        password = md5(password.encode("latin1")).hexdigest()
         users.append({
             "username": username,
             "password": password
