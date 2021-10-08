@@ -1,10 +1,12 @@
-from pyftpdlib import authorizers
-from pyftpdlib.handlers import FTPHandler
-from pyftpdlib.servers import FTPServer
-from pyftpdlib.authorizers import DummyAuthorizer, AuthenticationFailed
 import json
+import os
 import sys
 from hashlib import md5
+
+from pyftpdlib.authorizers import DummyAuthorizer, AuthenticationFailed
+from pyftpdlib.handlers import FTPHandler
+from pyftpdlib.servers import FTPServer
+
 
 class DummyMD5Authorizer(DummyAuthorizer):
 
@@ -18,26 +20,30 @@ class DummyMD5Authorizer(DummyAuthorizer):
         except KeyError:
             raise AuthenticationFailed
 
+
 class FTP_Server:
     def __init__(self, host, port):
         self.host = host
         self.port = port
-        self.usernames, self.passwords = self.load_usernames_passwords()
-        self.hashes = [md5(password.encode('latin1')).hexdigest() for password in self.passwords]
-        self.save_directory = "."
+        self.base_dir = "files"
         self.handler = self.initialize_handler()
-        self.ftp_server = FTPServer((self.host, self.port),self.handler)
-    
-    def load_usernames_passwords(self):
-        with open('config.json', 'r') as openfile:
-            details = json.load(openfile)
-        return list(details.keys()), list(details.values())
+        self.ftp_server = FTPServer((self.host, self.port), self.handler)
+
+    def get_users(self):
+        with open('users.json', 'r') as f:
+            details = json.load(f)
+            users = details['users']
+            return users
 
     def initialize_handler(self):
         authorizer = DummyMD5Authorizer()
-        for i in range(len(self.usernames)):
-            authorizer.add_user(self.usernames[i], self.hashes[i], self.save_directory, perm='elradfmw')
-        
+        for user in self.get_users():
+            if not authorizer.has_user(user['username']):
+                os.makedirs(os.path.join(self.base_dir, user['username']), exist_ok=True)
+                authorizer.add_user(user['username'], user['password'],
+                                    os.path.join(self.base_dir, user['username']), perm='elradfmw')
+
+
         print(authorizer.user_table)
         with open("user_table.json", "w") as outfile:
             json.dump(authorizer.user_table, outfile)
