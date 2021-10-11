@@ -1,7 +1,6 @@
 import json
 from _md5 import md5
 from argparse import ArgumentParser
-import shutil
 
 from RavFTP.config import USERS_FILE_PATH
 
@@ -12,10 +11,13 @@ def add(username, password):
         details = json.load(openfile)
         users = details['users']
 
+    user = [user['username'] for user in users if user['username'] == username]
+
     # Check user
-    if len([user['username'] for user in users if user['username'] == username]) == 0:
+    if len(user) == 0:
         # Do not add user
         password = md5(password.encode("latin1")).hexdigest()
+
         users.append({
             "username": username,
             "password": password
@@ -26,13 +28,32 @@ def add(username, password):
         with open(USERS_FILE_PATH, "w") as f:
             json.dump(details, f)
 
-        return {
+        print({
             "username": username,
             "password": password
-        }
+        })
     else:
-        user = [user for user in users if user['username'] == username][0]
-        return user
+        password = md5(password.encode("latin1")).hexdigest()
+
+        users2 = []
+        for index, user1 in enumerate(users):
+            if user1['username'] == username:
+                users2.append({
+                    "username": username,
+                    "password": password
+                })
+            else:
+                users2.append(user1)
+
+        details['users'] = users2
+
+        with open(USERS_FILE_PATH, "w") as f:
+            json.dump(details, f)
+
+        print({
+            "username": username,
+            "password": password
+        })
 
 
 if __name__ == '__main__':
