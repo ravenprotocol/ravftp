@@ -3,11 +3,12 @@ from _md5 import md5
 from argparse import ArgumentParser
 import shutil
 
+from RavFTP.config import USERS_FILE_PATH
+
 
 def add(username, password):
     users = None
-    shutil.copyfile("users.json", "users-old.json")
-    with open('users.json', 'r') as openfile:
+    with open(USERS_FILE_PATH, 'r') as openfile:
         details = json.load(openfile)
         users = details['users']
 
@@ -22,7 +23,7 @@ def add(username, password):
 
         details['users'] = users
 
-        with open("users.json", "w") as f:
+        with open(USERS_FILE_PATH, "w") as f:
             json.dump(details, f)
 
         return {
