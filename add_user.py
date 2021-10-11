@@ -24,8 +24,14 @@ def add(username, password):
 
         with open("users.json", "w") as f:
             json.dump(details, f)
+
+        return {
+            "username": username,
+            "password": password
+        }
     else:
-        raise Exception("User already exists")
+        user = [user for user in users if user['username'] == username][0]
+        return user
 
 
 if __name__ == '__main__':

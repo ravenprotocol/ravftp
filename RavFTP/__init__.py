@@ -7,6 +7,8 @@ from pyftpdlib.authorizers import DummyAuthorizer, AuthenticationFailed
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
 
+from .config import BASE_DIR, USERS_FILE_PATH, USER_TABLE_FILE_PATH, FILES_DIR, MASQUERADE_ADDRESS, PASSIVE_PORTS
+
 
 class DummyMD5Authorizer(DummyAuthorizer):
 
@@ -27,12 +29,12 @@ class FTP_Server:
     def __init__(self, host, port):
         self.host = host
         self.port = port
-        self.base_dir = "files"
+        self.base_dir = FILES_DIR
         self.handler = self.initialize_handler()
         self.ftp_server = FTPServer((self.host, self.port), self.handler)
 
     def get_users(self):
-        with open('users.json', 'r') as f:
+        with open(USERS_FILE_PATH, 'r') as f:
             details = json.load(f)
             users = details['users']
             return users
@@ -51,15 +53,15 @@ class FTP_Server:
                                     os.path.join(self.base_dir, user['username']), perm='elradfmw')
 
         print(authorizer.user_table)
-        with open("user_table.json", "w") as outfile:
+        with open(USER_TABLE_FILE_PATH, "w") as outfile:
             json.dump(authorizer.user_table, outfile)
 
         handler = FTPHandler
         handler.authorizer = authorizer
         handler.permit_foreign_addresses = True
         handler.permit_privileged_ports = True
-        handler.masquerade_address = "54.201.212.222"
-        handler.passive_ports = range(60000, 65535)
+        handler.masquerade_address = MASQUERADE_ADDRESS
+        handler.passive_ports = PASSIVE_PORTS
         return handler
 
     def run(self):
