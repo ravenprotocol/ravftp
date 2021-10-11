@@ -58,6 +58,8 @@ class FTP_Server:
         handler.authorizer = authorizer
         handler.permit_foreign_addresses = True
         handler.permit_privileged_ports = True
+        handler.masquerade_address = "54.201.212.222"
+        handler.passive_ports = range(60000, 65535)
         return handler
 
     def run(self):
