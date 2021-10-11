@@ -44,10 +44,10 @@ class FTP_Server:
             if not authorizer.has_user(user['username']):
                 os.makedirs(os.path.join(self.base_dir, user['username']), exist_ok=True)
                 password = user['password']
-                if sys.version_info >= (3, 0):
-                    password = password.encode('latin1')
-                hash = md5(password).hexdigest()
-                authorizer.add_user(user['username'], hash,
+                # if sys.version_info >= (3, 0):
+                #     password = password.encode('latin1')
+                # hash = md5(password).hexdigest()
+                authorizer.add_user(user['username'], password,
                                     os.path.join(self.base_dir, user['username']), perm='elradfmw')
 
         print(authorizer.user_table)
