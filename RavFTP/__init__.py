@@ -11,10 +11,12 @@ from pyftpdlib.servers import FTPServer
 class DummyMD5Authorizer(DummyAuthorizer):
 
     def validate_authentication(self, username, password, handler):
+        # print(username, password, self.user_table)
         if sys.version_info >= (3, 0):
             password = password.encode('latin1')
         hash = md5(password).hexdigest()
         try:
+            # print(hash, self.user_table[username]['pwd'])
             if self.user_table[username]['pwd'] != hash:
                 raise KeyError
         except KeyError:
@@ -37,12 +39,16 @@ class FTP_Server:
 
     def initialize_handler(self):
         authorizer = DummyMD5Authorizer()
+
         for user in self.get_users():
             if not authorizer.has_user(user['username']):
                 os.makedirs(os.path.join(self.base_dir, user['username']), exist_ok=True)
-                authorizer.add_user(user['username'], user['password'],
+                password = user['password']
+                if sys.version_info >= (3, 0):
+                    password = password.encode('latin1')
+                hash = md5(password).hexdigest()
+                authorizer.add_user(user['username'], hash,
                                     os.path.join(self.base_dir, user['username']), perm='elradfmw')
-
 
         print(authorizer.user_table)
         with open("user_table.json", "w") as outfile:
