@@ -2,7 +2,7 @@ import os
 import signal
 from subprocess import Popen, PIPE
 
-from RavFTP import FTP_Server
+from ravftp import FTP_Server
 
 
 def start_server():
