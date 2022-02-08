@@ -13,12 +13,10 @@ from .config import BASE_DIR, USERS_FILE_PATH, USER_TABLE_FILE_PATH, FILES_DIR, 
 class DummyMD5Authorizer(DummyAuthorizer):
 
     def validate_authentication(self, username, password, handler):
-        # print(username, password, self.user_table)
         if sys.version_info >= (3, 0):
             password = password.encode('latin1')
         hash = md5(password).hexdigest()
         try:
-            # print(hash, self.user_table[username]['pwd'])
             if self.user_table[username]['pwd'] != hash:
                 raise KeyError
         except KeyError:
@@ -29,7 +27,7 @@ class FTP_Server:
     def __init__(self, host, port):
         self.host = host
         self.port = port
-        self.base_dir = FILES_DIR
+        self.files_dir = FILES_DIR
         self.handler = self.initialize_handler()
         self.ftp_server = FTPServer((self.host, self.port), self.handler)
 
@@ -44,13 +42,10 @@ class FTP_Server:
 
         for user in self.get_users():
             if not authorizer.has_user(user['username']):
-                os.makedirs(os.path.join(self.base_dir, user['username']), exist_ok=True)
+                os.makedirs(os.path.join(self.files_dir, user['username']), exist_ok=True)
                 password = user['password']
-                # if sys.version_info >= (3, 0):
-                #     password = password.encode('latin1')
-                # hash = md5(password).hexdigest()
                 authorizer.add_user(user['username'], password,
-                                    os.path.join(self.base_dir, user['username']), perm='elradfmw')
+                                    os.path.join(self.files_dir, user['username']), perm='elradfmw')
 
         print(authorizer.user_table)
         with open(USER_TABLE_FILE_PATH, "w") as outfile:
