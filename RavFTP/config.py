@@ -9,5 +9,5 @@ USERS_FILE_PATH = os.path.join(PROJECT_DIR, "users.json")
 USER_TABLE_FILE_PATH = os.path.join(PROJECT_DIR, "user_table.json")
 FILES_DIR = os.path.join(BASE_DIR, "ravftp", "files")
 
-MASQUERADE_ADDRESS = "********"
+MASQUERADE_ADDRESS = "127.0.0.1"
 PASSIVE_PORTS = range(60000, 65535)

@@ -1,3 +1,3 @@
-# raven-ftp-server
+# ravftp
 
-Hosts the FTP Server responsible for transfer of model weights.
+Raven's ftp server to facilitate the transfer of files
