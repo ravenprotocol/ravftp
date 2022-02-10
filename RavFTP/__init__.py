@@ -7,7 +7,7 @@ from pyftpdlib.authorizers import DummyAuthorizer, AuthenticationFailed
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
 
-from .config import BASE_DIR, USERS_FILE_PATH, USER_TABLE_FILE_PATH, FILES_DIR, MASQUERADE_ADDRESS, PASSIVE_PORTS
+from .config import USERS_FILE_PATH, USER_TABLE_FILE_PATH, FILES_DIR, MASQUERADE_ADDRESS, PASSIVE_PORTS
 
 
 class DummyMD5Authorizer(DummyAuthorizer):
