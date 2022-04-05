@@ -1,13 +1,14 @@
 import os
 import signal
+import subprocess
 from subprocess import Popen, PIPE
-
+import time
 from rftp import FTP_Server
-
+import globals as g
 
 def start_server():
-    ftp_server = FTP_Server("0.0.0.0", 21)
-    ftp_server.run()
+    g.ftp_server = FTP_Server("0.0.0.0", 21)
+    g.ftp_server.run()
 
 
 def stop_server():
@@ -20,6 +21,8 @@ def stop_server():
             continue
 
         os.kill(int(data[1]), signal.SIGKILL)
+
+    time.sleep(2)
 
 
 def restart_ftp_server():

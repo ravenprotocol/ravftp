@@ -3,6 +3,8 @@ import os
 import sys
 from hashlib import md5
 
+import logging 
+
 from pyftpdlib.authorizers import DummyAuthorizer, AuthenticationFailed
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
@@ -30,6 +32,7 @@ class FTP_Server:
         self.files_dir = FILES_DIR
         self.handler = self.initialize_handler()
         self.ftp_server = FTPServer((self.host, self.port), self.handler)
+        self.authorizer = self.handler.authorizer
 
     def get_users(self):
         with open(USERS_FILE_PATH, 'r') as f:
@@ -47,7 +50,8 @@ class FTP_Server:
                 authorizer.add_user(user['username'], password,
                                     os.path.join(self.files_dir, user['username']), perm='elradfmw')
 
-        print(authorizer.user_table)
+        import pprint
+        print(pprint.pformat(authorizer.user_table))
         with open(USER_TABLE_FILE_PATH, "w") as outfile:
             json.dump(authorizer.user_table, outfile)
 
@@ -57,6 +61,7 @@ class FTP_Server:
         handler.permit_privileged_ports = True
         handler.masquerade_address = MASQUERADE_ADDRESS
         handler.passive_ports = PASSIVE_PORTS
+        logging.basicConfig(filename='log.txt', level=logging.DEBUG)
         return handler
 
     def run(self):
