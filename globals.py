@@ -1,5 +1,6 @@
 from utils import Singleton
 
+
 @Singleton
 class Globals(object):
     def __init__(self):
@@ -12,5 +13,6 @@ class Globals(object):
     @ftp_server.setter
     def ftp_server(self, ftp_server):
         self._ftp_server = ftp_server
+
 
 globals = Globals.Instance()

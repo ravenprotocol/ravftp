@@ -1,13 +1,14 @@
 import os
 import signal
-import subprocess
-from subprocess import Popen, PIPE
 import time
-from rftp import FTP_Server
+from subprocess import Popen, PIPE
+
 import globals as g
+from rftp import FTP_Server
+
 
 def start_server():
-    g.ftp_server = FTP_Server("0.0.0.0", 21)
+    g.ftp_server = FTP_Server(os.environ.get("FTP_SERVER_HOST"), os.environ.get("FTP_SERVER_PORT"))
     g.ftp_server.run()
 
 

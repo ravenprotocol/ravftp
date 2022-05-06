@@ -1,5 +1,8 @@
 from argparse import ArgumentParser
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from helpers import stop_server, start_server, restart_ftp_server
 
 if __name__ == '__main__':

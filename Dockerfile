@@ -4,6 +4,8 @@ COPY . /
 
 RUN pip3 install -r requirements.txt
 
-EXPOSE 21 20
+EXPOSE 5000 21
 
-ENTRYPOINT python3 start_federated_server.py
+RUN python3 run.py --action start &
+
+ENTRYPOINT python3 app.py

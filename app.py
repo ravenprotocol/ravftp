@@ -1,5 +1,9 @@
+import os
 import threading
 import warnings
+
+from dotenv import load_dotenv
+load_dotenv()
 
 from flask import Flask, request
 
@@ -21,7 +25,10 @@ def thread_function_add_user():  # username, password):
 def add_user():
     username = request.args.get('username', None)
     password = request.args.get('password', None)
-    print("Flask Add user: ", username, password)
+    if username is None or password is None:
+        return "Username or password is missing"
+
+    print("Add ftp user: ", username, password)
     thread_add_user = threading.Thread(target=thread_function_add_user)  # , args=(username, password))
     thread_add_user.start()
     return 'User added successfully', 200
@@ -31,4 +38,4 @@ if __name__ == '__main__':
     thread_start_ftp_server = threading.Thread(target=restart_ftp_server)
     thread_start_ftp_server.start()
 
-    app.run(port=5000, debug=False, host="0.0.0.0")
+    app.run(host=os.environ.get("FLASK_SERVER_HOST"), port=os.environ.get("FLASK_SERVER_PORT"), debug=False)
