@@ -1,14 +1,19 @@
+import json
 import os
+import sys
 import threading
 import warnings
+from _md5 import md5
 
 from dotenv import load_dotenv
+
 load_dotenv()
 
 from flask import Flask, request
 
 import globals as g
 from helpers import restart_ftp_server
+from add_user import add
 
 warnings.filterwarnings("ignore")
 
@@ -29,6 +34,8 @@ def add_user():
         return "Username or password is missing"
 
     print("Add ftp user: ", username, password)
+    add(username, password)
+
     thread_add_user = threading.Thread(target=thread_function_add_user)  # , args=(username, password))
     thread_add_user.start()
     return 'User added successfully', 200
