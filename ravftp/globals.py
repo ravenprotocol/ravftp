@@ -1,4 +1,4 @@
-from utils import Singleton
+from .utils import Singleton
 
 
 @Singleton

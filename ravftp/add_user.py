@@ -2,7 +2,7 @@ import json
 from _md5 import md5
 from argparse import ArgumentParser
 
-from rftp.config import USERS_FILE_PATH
+from .config import USERS_FILE_PATH
 
 
 def add(username, password):

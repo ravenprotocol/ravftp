@@ -1,0 +1,8 @@
+import os
+
+FILES_DIR = os.environ.get("FILES_DIR")
+USERS_FILE_PATH = os.environ.get("USERS_FILE_PATH")
+USER_TABLE_FILE_PATH = os.environ.get("USER_TABLE_FILE_PATH")
+
+MASQUERADE_ADDRESS = os.environ.get("MASQUERADE_ADDRESS")
+PASSIVE_PORTS = range(60000, 65535)

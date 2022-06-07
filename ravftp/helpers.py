@@ -3,8 +3,8 @@ import signal
 import time
 from subprocess import Popen, PIPE
 
-import globals as g
-from rftp import FTP_Server
+from .globals import globals as g
+from .ftp_server import FTP_Server
 
 
 def start_server():

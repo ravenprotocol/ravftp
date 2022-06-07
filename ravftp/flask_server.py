@@ -1,19 +1,12 @@
-import json
 import os
-import sys
 import threading
 import warnings
-from _md5 import md5
-
-from dotenv import load_dotenv
-
-load_dotenv()
 
 from flask import Flask, request
 
-import globals as g
-from helpers import restart_ftp_server
-from add_user import add
+from .helpers import restart_ftp_server
+from .add_user import add
+from .globals import globals as g
 
 warnings.filterwarnings("ignore")
 
@@ -41,7 +34,7 @@ def add_user():
     return 'User added successfully', 200
 
 
-if __name__ == '__main__':
+def start():
     thread_start_ftp_server = threading.Thread(target=restart_ftp_server)
     thread_start_ftp_server.start()
 

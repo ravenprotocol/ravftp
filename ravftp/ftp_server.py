@@ -1,9 +1,8 @@
 import json
+import logging
 import os
 import sys
 from hashlib import md5
-
-import logging 
 
 from pyftpdlib.authorizers import DummyAuthorizer, AuthenticationFailed
 from pyftpdlib.handlers import FTPHandler
@@ -62,6 +61,7 @@ class FTP_Server:
         handler.masquerade_address = MASQUERADE_ADDRESS
         handler.passive_ports = PASSIVE_PORTS
         logging.basicConfig(filename='log.txt', level=logging.DEBUG)
+        print("Handler initiated")
         return handler
 
     def run(self):
