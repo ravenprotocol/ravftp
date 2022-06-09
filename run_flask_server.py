@@ -5,12 +5,10 @@ if os.path.exists(".env"):
     from dotenv import load_dotenv
     load_dotenv()
 
-from ravftp import flask_server
-
 if __name__ == '__main__':
     os.getcwd()
 
-    files_dir = os.path.join(os.getcwd(), "files")
+    files_dir = os.path.join(os.path.expanduser("~"), "ravenverse/ravftp/files")
     users_file_path = os.path.join(os.getcwd(), "users.json")
     user_table_file_path = os.path.join(os.getcwd(), "user_table.json")
 
@@ -38,5 +36,7 @@ if __name__ == '__main__':
     os.environ["FILES_DIR"] = args.files_dir
     os.environ["USERS_FILE_PATH"] = args.users_file
     os.environ["USER_TABLE_FILE_PATH"] = args.users_table_file
+
+    from ravftp import flask_server
 
     flask_server.start()
