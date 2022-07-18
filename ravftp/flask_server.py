@@ -1,14 +1,19 @@
+import logging
 import os
 import threading
 import warnings
 
 from flask import Flask, request
 
-from .helpers import restart_ftp_server
 from .add_user import add
+from .config import RAVFTP_LOG_FILE
 from .globals import globals as g
+from .helpers import restart_ftp_server
 
 warnings.filterwarnings("ignore")
+
+logging.basicConfig(filename=RAVFTP_LOG_FILE, level=logging.DEBUG,
+                    format="%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
 
 app = Flask(__name__)
 
