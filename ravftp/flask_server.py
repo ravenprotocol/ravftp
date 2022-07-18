@@ -39,6 +39,11 @@ def add_user():
     return 'User added successfully', 200
 
 
+@app.route('/test', methods=['GET'])
+def test():
+    return 'Test', 200
+
+
 def start():
     thread_start_ftp_server = threading.Thread(target=restart_ftp_server)
     thread_start_ftp_server.start()
