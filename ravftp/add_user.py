@@ -5,7 +5,7 @@ from argparse import ArgumentParser
 from .config import USERS_FILE_PATH
 
 
-def add(username, password):
+def add(username, password, logger):
     users = None
     with open(USERS_FILE_PATH, 'r') as openfile:
         details = json.load(openfile)
@@ -28,10 +28,10 @@ def add(username, password):
         with open(USERS_FILE_PATH, "w") as f:
             json.dump(details, f)
 
-        print({
+        logger.debug("{}".format({
             "username": username,
             "password": password
-        })
+        }))
     else:
         password = md5(password.encode("latin1")).hexdigest()
 
@@ -50,10 +50,10 @@ def add(username, password):
         with open(USERS_FILE_PATH, "w") as f:
             json.dump(details, f)
 
-        print({
+        logger.debug("{}".format({
             "username": username,
             "password": password
-        })
+        }))
 
 
 if __name__ == '__main__':

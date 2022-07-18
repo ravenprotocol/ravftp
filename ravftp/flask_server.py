@@ -1,4 +1,3 @@
-import logging
 import os
 import threading
 import warnings
@@ -6,16 +5,15 @@ import warnings
 from flask import Flask, request
 
 from .add_user import add
-from .config import RAVFTP_LOG_FILE
 from .globals import globals as g
 from .helpers import restart_ftp_server
+from .logger import get_logger
 
 warnings.filterwarnings("ignore")
 
-logging.basicConfig(filename=RAVFTP_LOG_FILE, level=logging.DEBUG,
-                    format="%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
-
 app = Flask(__name__)
+
+logger = get_logger()
 
 
 def thread_function_add_user():  # username, password):
@@ -31,8 +29,8 @@ def add_user():
     if username is None or password is None:
         return "Username or password is missing"
 
-    print("Add ftp user: ", username, password)
-    add(username, password)
+    logger.debug("Add ftp user: {} {}".format(username, password))
+    add(username, password, logger)
 
     thread_add_user = threading.Thread(target=thread_function_add_user)  # , args=(username, password))
     thread_add_user.start()
