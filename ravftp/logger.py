@@ -1,6 +1,8 @@
 import logging
 import logging.handlers
 
+from .config import RAVFTP_LOG_FILE
+
 
 def get_logger():
     # Set up a specific logger with our desired output level
@@ -10,7 +12,7 @@ def get_logger():
     logger.propagate = False
 
     # Add the log message handler to the logger
-    file_handler = logging.handlers.RotatingFileHandler("RAVFTP_LOG_FILE")
+    file_handler = logging.handlers.RotatingFileHandler(RAVFTP_LOG_FILE)
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(log_formatter)
     logger.addHandler(file_handler)
