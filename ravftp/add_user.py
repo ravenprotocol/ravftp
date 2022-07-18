@@ -7,10 +7,14 @@ from .config import USERS_FILE_PATH
 
 def add(username, password, logger):
     users = None
+    logger.debug("Inside add:{}".format(USERS_FILE_PATH))
     with open(USERS_FILE_PATH, 'r') as openfile:
         details = json.load(openfile)
         users = details['users']
 
+
+    logger.debug("users:{}".format(str(users)))
+    
     user = [user['username'] for user in users if user['username'] == username]
 
     # Check user
