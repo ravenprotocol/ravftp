@@ -14,7 +14,7 @@ def add(username, password, logger):
 
 
     logger.debug("users:{}".format(str(users)))
-    
+
     user = [user['username'] for user in users if user['username'] == username]
 
     # Check user

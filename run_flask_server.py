@@ -1,18 +1,20 @@
 import os
 from argparse import ArgumentParser
+from pathlib import Path
+
 from ravftp.logger import get_logger
 
 logger = get_logger()
 
 logger.debug("Current dir:{}".format(os.getcwd()))
 
-if os.path.exists(".env"):
+if os.path.exists("/home/apple/.env"):
     logger.debug("env exists")
     from dotenv import load_dotenv
     load_dotenv()
 
 if __name__ == '__main__':
-    base_dir = os.path.join(os.path.expanduser("~"), "ravftp")
+    base_dir = os.path.join(str(Path.home()), "ravftp")
     files_dir = os.path.join(base_dir, "files")
     users_file_path = os.path.join(base_dir, "users.json")
     user_table_file_path = os.path.join(base_dir, "user_table.json")
