@@ -1,8 +1,10 @@
+import grp
 import json
 import logging
 import os
 import sys
 from hashlib import md5
+from pwd import getpwnam
 
 from pyftpdlib.authorizers import DummyAuthorizer, AuthenticationFailed
 from pyftpdlib.handlers import FTPHandler
@@ -45,6 +47,8 @@ class FTP_Server:
         for user in self.get_users():
             if not authorizer.has_user(user['username']):
                 os.makedirs(os.path.join(self.files_dir, user['username']), exist_ok=True)
+                os.chown(os.path.join(self.files_dir, user['username']),  getpwnam('apple').pw_uid,
+                         grp.getgrnam('apple').gr_gid)
                 password = user['password']
                 authorizer.add_user(user['username'], password,
                                     os.path.join(self.files_dir, user['username']), perm='elradfmw')
