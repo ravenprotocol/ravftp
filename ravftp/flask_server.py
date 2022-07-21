@@ -7,13 +7,10 @@ from flask import Flask, request
 from .add_user import add
 from .globals import globals as g
 from .helpers import restart_ftp_server
-from .logger import get_logger
 
 warnings.filterwarnings("ignore")
 
 app = Flask(__name__)
-
-logger = get_logger()
 
 
 def thread_function_add_user():  # username, password):
@@ -29,8 +26,8 @@ def add_user():
     if username is None or password is None:
         return "Username or password is missing"
 
-    logger.debug("Add ftp user: {} {}".format(username, password))
-    add(username, password, logger)
+    g.logger.debug("Add ftp user: {} {}".format(username, password))
+    add(username, password)
 
     thread_add_user = threading.Thread(target=thread_function_add_user)  # , args=(username, password))
     thread_add_user.start()
