@@ -7,7 +7,7 @@ from hashlib import md5
 from pwd import getpwnam
 
 from pyftpdlib.authorizers import DummyAuthorizer, AuthenticationFailed
-from pyftpdlib.handlers import FTPHandler, TLS_FTPHandler
+from pyftpdlib.handlers import TLS_FTPHandler, FTPHandler
 from pyftpdlib.servers import FTPServer
 
 from .config import USERS_FILE_PATH, USER_TABLE_FILE_PATH, FILES_DIR, MASQUERADE_ADDRESS, PASSIVE_PORTS
@@ -58,16 +58,20 @@ class FTP_Server:
         with open(USER_TABLE_FILE_PATH, "w") as outfile:
             json.dump(authorizer.user_table, outfile)
 
-        # handler = FTPHandler
-        handler = TLS_FTPHandler
-        handler.certfile = os.environ.get("CERTFILE_PATH")
+        if os.environ.get('TLS') == "True":
+            handler = TLS_FTPHandler
+            handler.certfile = os.environ.get("CERTFILE_PATH")
+            handler.keyfile = os.environ.get("KEY_PATH")
+            handler.tls_control_required = True
+            handler.tls_data_required = True
+        else:
+            handler = FTPHandler
+
         handler.authorizer = authorizer
         handler.permit_foreign_addresses = True
         handler.permit_privileged_ports = True
         handler.masquerade_address = MASQUERADE_ADDRESS
         handler.passive_ports = PASSIVE_PORTS
-        handler.tls_control_required = True
-        handler.tls_data_required = True
         logging.basicConfig(filename='log.txt', level=logging.DEBUG)
         print("Handler initiated")
         return handler
