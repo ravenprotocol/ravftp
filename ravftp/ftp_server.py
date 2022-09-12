@@ -5,9 +5,8 @@ import os
 import sys
 from hashlib import md5
 from pwd import getpwnam
-
 from pyftpdlib.authorizers import DummyAuthorizer, AuthenticationFailed
-from pyftpdlib.handlers import TLS_FTPHandler, FTPHandler
+from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
 
 from .config import USERS_FILE_PATH, USER_TABLE_FILE_PATH, FILES_DIR, MASQUERADE_ADDRESS, PASSIVE_PORTS
@@ -47,8 +46,8 @@ class FTP_Server:
         for user in self.get_users():
             if not authorizer.has_user(user['username']):
                 os.makedirs(os.path.join(self.files_dir, user['username']), exist_ok=True)
-                os.chown(os.path.join(self.files_dir, user['username']),  getpwnam('apple').pw_uid,
-                         grp.getgrnam('apple').gr_gid)
+                os.chown(os.path.join(self.files_dir, user['username']), getpwnam('ubuntu').pw_uid,
+                         grp.getgrnam('ubuntu').gr_gid)
                 password = user['password']
                 authorizer.add_user(user['username'], password,
                                     os.path.join(self.files_dir, user['username']), perm='elradfmw')
@@ -59,6 +58,7 @@ class FTP_Server:
             json.dump(authorizer.user_table, outfile)
 
         if os.environ.get('TLS') == "True":
+            from pyftpdlib.handlers import TLS_FTPHandler
             handler = TLS_FTPHandler
             handler.certfile = os.environ.get("CERTFILE_PATH")
             handler.keyfile = os.environ.get("KEY_PATH")
