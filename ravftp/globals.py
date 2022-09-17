@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 from .logger import get_logger
 from .utils import Singleton
 
 
 @Singleton
-class Globals(object):
+class Globals:
     def __init__(self):
         self._ftp_server = None
         self._logger = get_logger()
@@ -19,5 +21,6 @@ class Globals(object):
     @property
     def logger(self):
         return self._logger
+
 
 globals = Globals.Instance()

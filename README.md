@@ -5,8 +5,8 @@ Ravftp is a combination of flask and ftp server that facilitates file/data trans
 #### Create a .env file
 
     touch .env
-    
-#### Set environment variables 
+
+#### Set environment variables
 
     MASQUERADE_ADDRESS=127.0.0.1
     FLASK_SERVER_HOST=0.0.0.0

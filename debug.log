@@ -1,0 +1,8 @@
+2022-09-17 18:03:10,901 [Thread-2    ] [DEBUG]  Add ftp user: 1447416226 XPDJ87AQ5S
+2022-09-17 18:03:10,901 [Thread-2    ] [DEBUG]  Add ftp user: 1447416226 XPDJ87AQ5S
+2022-09-17 18:03:10,901 [Thread-2    ] [DEBUG]  Inside add:/Users/kamleshuikey/Dev/codebase/ravenprotocol/ravftp/users.json
+2022-09-17 18:03:10,901 [Thread-2    ] [DEBUG]  Inside add:/Users/kamleshuikey/Dev/codebase/ravenprotocol/ravftp/users.json
+2022-09-17 18:03:10,902 [Thread-2    ] [DEBUG]  users:[]
+2022-09-17 18:03:10,902 [Thread-2    ] [DEBUG]  users:[]
+2022-09-17 18:03:10,903 [Thread-2    ] [DEBUG]  {'username': '1447416226', 'password': 'df64cb117ffff72e0321a6366bbe494a'}
+2022-09-17 18:03:10,903 [Thread-2    ] [DEBUG]  {'username': '1447416226', 'password': 'df64cb117ffff72e0321a6366bbe494a'}
