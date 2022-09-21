@@ -1,7 +1,6 @@
-from dotenv import load_dotenv
-load_dotenv()
-
+from __future__ import annotations
 from ravftp.logger import get_logger
+
 logger = get_logger()
 
 

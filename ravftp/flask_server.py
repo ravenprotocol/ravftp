@@ -1,14 +1,17 @@
+from __future__ import annotations
+
 import os
 import threading
 import warnings
 
-from flask import Flask, request
+from flask import Flask
+from flask import request
 
 from .add_user import add
 from .globals import globals as g
 from .helpers import restart_ftp_server
 
-warnings.filterwarnings("ignore")
+warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
 
@@ -24,12 +27,13 @@ def add_user():
     username = request.args.get('username', None)
     password = request.args.get('password', None)
     if username is None or password is None:
-        return "Username or password is missing"
+        return 'Username or password is missing'
 
-    g.logger.debug("Add ftp user: {} {}".format(username, password))
+    g.logger.debug(f'Add ftp user: {username} {password}')
     add(username, password)
 
-    thread_add_user = threading.Thread(target=thread_function_add_user)  # , args=(username, password))
+    # , args=(username, password))
+    thread_add_user = threading.Thread(target=thread_function_add_user)
     thread_add_user.start()
     return 'User added successfully', 200
 
@@ -43,4 +47,5 @@ def start():
     thread_start_ftp_server = threading.Thread(target=restart_ftp_server)
     thread_start_ftp_server.start()
 
-    app.run(host=os.environ.get("FLASK_SERVER_HOST"), port=os.environ.get("FLASK_SERVER_PORT"), debug=False)
+    app.run(host=os.environ.get('FLASK_SERVER_HOST'),
+            port=os.environ.get('FLASK_SERVER_PORT'), debug=False)

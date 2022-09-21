@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+
 class Singleton:
     def __init__(self, cls):
         self._cls = cls

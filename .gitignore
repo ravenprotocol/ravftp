@@ -3,3 +3,4 @@ user_table.json
 users-old.json
 output.log
 .env
+**/__pycache__

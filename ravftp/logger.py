@@ -1,4 +1,5 @@
-import logging
+from __future__ import annotations
+
 import logging.handlers
 
 from .config import RAVFTP_LOG_FILE
@@ -7,7 +8,8 @@ from .config import RAVFTP_LOG_FILE
 def get_logger():
     # Set up a specific logger with our desired output level
     logger = logging.getLogger(__name__)
-    log_formatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
+    log_formatter = logging.Formatter(
+        '%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s')
     logger.setLevel(logging.DEBUG)
     logger.propagate = False
 
